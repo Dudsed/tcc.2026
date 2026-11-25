@@ -1,631 +1,749 @@
-```
-<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+   <!--configurações b-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MVP do Site Institucional da Escola Estadual Culto à Ciência em Campinas-SP. Tradição, Ensino Integral, Itinerários Formativos e Acervo Cultural.">
+    <title>Escola Estadual Culto à Ciência | Campinas - SP</title>
 
-<link rel="stylesheet" href="style.css">
+    <!-- fontes de letra -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-```
+    <!-- icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-```
-<div class="accessibility-bar" role="toolbar" aria-label="Ferramentas de Acessibilidade">
-    <div class="accessibility-bar__container">
-        <button id="btn-increase-text" class="accessibility-bar__btn" aria-label="Aumentar o tamanho do texto">A+</button>
-        <button id="btn-decrease-text" class="accessibility-bar__btn" aria-label="Diminuir o tamanho do texto">A-</button>
-        <button id="btn-contrast" class="accessibility-bar__btn" aria-label="Ativar ou desativar o Alto Contraste">
-            <i class="fa-solid solid fa-circle-half-stroke"></i> Alto Contraste
+    <!-- links do codigo-->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <!--barra de acessibilidade flutuante-->
+    <div class="accessibility-floating" id="barra-acessibilidade">
+        <button type="button" id="btn-aumentar-fonte" class="accessibility-floating__btn" title="Aumentar Fonte">A+</button>
+        <button type="button" id="btn-restaurar-fonte" class="accessibility-floating__btn" title="Tamanho Padrão">A</button>
+        <button type="button" id="btn-diminuir-fonte" class="accessibility-floating__btn" title="Diminuir Fonte">A-</button>
+        <button type="button" id="btn-alto-contraste" class="accessibility-floating__btn" title="Alto Contraste">
+            <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
         </button>
-        <button id="btn-tts" class="accessibility-bar__btn" aria-label="Ouvir o texto da página por voz">
-            <i class="fa-solid fa-volume-high"></i> Ouvir Texto
-        </button>
-    </div>
-</div>
-
-<header class="header">
-    <div class="header__container">
-        <a href="#inicio" class="header__logo" aria-label="Culto à Ciência - Página Inicial">
-            <span class="header__logo-text">Culto à Ciência</span>
-        </a>
-
-        <button class="header__toggle" id="menu-toggle" aria-label="Abrir menu de navegação" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <nav class="nav" id="main-nav" aria-label="Menu Principal">
-            <ul class="nav__list">
-                <li class="nav__item"><a href="#inicio" class="nav__link">Início</a></li>
-                <li class="nav__item"><a href="#historia" class="nav__link">História</a></li>
-                <li class="nav__item"><a href="#gestao" class="nav__link">Gestão</a></li>
-                <li class="nav__item"><a href="#docentes" class="nav__link">Docentes</a></li>
-                <li class="nav__item"><a href="#integral" class="nav__link">Ensino Integral</a></li>
-                <li class="nav__item"><a href="#itinerarios" class="nav__link">Itinerários</a></li>
-                <li class="nav__item"><a href="#projetos" class="nav__link">Projetos</a></li>
-                <li class="nav__item"><a href="#eventos" class="nav__link">Eventos</a></li>
-                <li class="nav__item"><a href="#jornal" class="nav__link">Jornal</a></li>
-                <li class="nav__item"><a href="#acervo" class="nav__link">Acervo</a></li>
-                <li class="nav__item"><a href="#galeria" class="nav__link">Galeria</a></li>
-                <li class="nav__item"><a href="#contato" class="nav__link">Contato</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<main class="main-content">
-
-    <section id="inicio" class="hero" aria-label="Boas-vindas">
-        <div class="hero__container">
-            <div class="hero__content">
-                <h1 class="hero__title">Bem-vindo à E.E. Culto à Ciência</h1>
-                <p class="hero__subtitle">Moldando o futuro e preservando a história da educação em Campinas desde 1873.</p>
-                <div class="hero__actions">
-                    <a href="#historia" class="btn btn--primary">Conhecer Nossa História</a>
-                    <a href="#contato" class="btn btn--secondary">Fale Conosco</a>
-                </div>
-            </div>
-            <div class="hero__image-wrapper">
-                <img src="fachada.escola.jpg" alt="Fachada histórica da Escola Estadual Culto à Ciência" class="hero__img">
-            </div>
-        </div>
-    </section>
-
-    <section id="historia" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Nossa História</h2>
-            <p class="section__subtitle">Uma das instituições de ensino mais tradicionais e antigas do Brasil.</p>
-            
-            <div class="grid grid--2-cols">
-                <div class="history__text-block">
-                    <h3>Fundação e Importância</h3>
-                    <p>Fundada em 1873 por iniciativa de cidadãos campineiros, a escola nasceu com o ideal de trazer o ensino científico e laico em uma época de profundas transformações no país. Localizada no coração de Campinas-SP, a instituição formou grandes personalidades da história brasileira.</p>
-                    <p>Seu imponente prédio é considerado um importante <strong>Patrimônio Histórico</strong>, tombado pelos órgãos de preservação cultural devido à sua arquitetura neoclássica marcante e sua relevância social duradoura.</p>
-                </div>
-                
-                <div class="history__timeline">
-                    <h3>Linha do Tempo</h3>
-                    <ul class="timeline">
-                        <li class="timeline__item">
-                            <span class="timeline__date">1873</span>
-                            <p class="timeline__desc">Fundação do colégio por um grupo de intelectuais e cafeicultores.</p>
-                        </li>
-                        <li class="timeline__item">
-                            <span class="timeline__date">1950</span>
-                            <p class="timeline__desc">Consolidação como referência pública estadual de ensino de alta qualidade.</p>
-                        </li>
-                        <li class="timeline__item">
-                            <span class="timeline__date">Atualmente</span>
-                            <p class="timeline__desc">Modelo de Ensino Integral, preparando jovens para os desafios modernos.</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gestao" class="section section--dark">
-        <div class="section__container">
-            <h2 class="section__title">Gestão Escolar</h2>
-            <p class="section__subtitle">A equipe responsável pela liderança administrativa e pedagógica da nossa escola.</p>
-            
-            <div class="grid grid--3-cols">
-                <article class="card card--team">
-                    <img src="[https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80](https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80)" alt="Foto do Diretor Escolar" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">Glauber Maldonado</h3>
-                        <p class="card__badge">Diretor Geral</p>
-                        <p class="card__text">Gestor de políticas públicas educacionais com mais de 15 anos dedicados à evolução pedagógica do Culto à Ciência.</p>
-                    </div>
-                </article>
-
-                <article class="card card--team">
-                    <img src="[https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80](https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80)" alt="Foto da Vice-Diretora Escolar" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">José Carlos mocin</h3>
-                        <p class="card__badge">Vice-Diretor</p>
-                        <p class="card__text">Responsável pela articulação comunitária e coordenação administrativa de suporte às turmas de ensino integral.</p>
-                    </div>
-                </article>
-
-                <article class="card card--team">
-                    <img src="[https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80](https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80)" alt="Foto da Coordenadora Pedagógica" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">Natália</h3>
-                        <p class="card__badge">Coordenador Pedagógico</p>
-                        <p class="card__text">Especialista no acompanhamento curricular e suporte direto aos professores e planejamentos de itinerários.</p>
-                    </div>
-                </article>
-            </div>
-    </div>
-</article>
-        </div>
-    </section>
-
-    <section id="docentes" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Corpo Docente</h2>
-            <p class="section__subtitle">Nossos professores divididos pelas respectivas áreas do conhecimento.</p>
-            
-            <div class="teachers-group">
-                <h3 class="teachers-group__title">Linguagens e Códigos</h3>
-                <div class="grid grid--4-cols">
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80)" alt="Professora Júlia" class="card__img">
-                        <div class="card__content">
-                            <h4>Profª. Matheus Medeiros</h4>
-                            <p>Língua Portuguesa e O.E</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Sandra Friedrich</h4>
-                            <p>Língua Inglesa</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Victor Mavassi </h4>
-                            <p>Redação e Leitura</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Adriana</h4>
-                            <p>Educação Física e Esportes</p>
-                        </div>
-                    </article>
-                     <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Patricia</h4>
-                            <p>Artes</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <div class="teachers-group">
-                <h3 class="teachers-group__title">Ciências da Natureza e Matemática</h3>
-                <div class="grid grid--4-cols">
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=300&q=80)" alt="Professora Patrícia" class="card__img">
-                        <div class="card__content">
-                            <h4>Profª. Lucas</h4>
-                            <p>Matemática e O.E</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80)" alt="Professor Fernando" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Isabelli</h4>
-                            <p>Matemática e O.E</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Andreia</h4>
-                            <p>Física</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Denilson</h4>
-                            <p>Física e Robótica</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Guilherme</h4>
-                            <p>Química e Laboratório</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Camila</h4>
-                            <p>Química e Laboratório</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-             <div class="teachers-group">
-                <h3 class="teachers-group__title">Ciências Humanas</h3>
-                <div class="grid grid--4-cols">
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80)" alt="Professora Júlia" class="card__img">
-                        <div class="card__content">
-                            <h4>Profª. Paula</h4>
-                            <p>História</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4> Prof. Guilherme</h4>
-                            <p>Sociologia e Filosofia</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Patricia</h4>
-                            <p>Geografia</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Adriana</h4>
-                            <p>Educação Física e Esportes</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-             <div class="teachers-group">
-                <h3 class="teachers-group__title">Cursos Técnicos</h3>
-                <div class="grid grid--4-cols">
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80)" alt="Professora Júlia" class="card__img">
-                        <div class="card__content">
-                            <h4>Profª. Glaucimara Moreira</h4>
-                            <p>Téc. Desenvolvimento de Sistemas</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4> Prof. Alexssander Ramos</h4>
-                            <p>Téc. Desenvolvimento de Sistemas</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. </h4>
-                            <p>Téc. Desenvolvimento de Sistemas</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. Fran</h4>
-                            <p>Téc. Enfermagem</p>
-                        </div>
-                    </article>
-                    <article class="card card--small">
-                        <img src="[https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80)" alt="Professor André" class="card__img">
-                        <div class="card__content">
-                            <h4>Prof. </h4>
-                            <p>Téc. Enfermagem</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-
-        </div>
-    </section>
-
-    <section id="integral" class="section section--dark">
-        <div class="section__container">
-            <h2 class="section__title">Ensino Integral</h2>
-            <p class="section__subtitle">Como funciona o Programa de Ensino Integral (PEI) em nossa unidade escolar.</p>
-            
-            <div class="grid grid--2-cols">
-                <div class="info-block">
-                    <h3>Formação Completa e Cidadã</h3>
-                    <p>No modelo PEI, os estudantes permanecem na escola ao longo de todo o dia, combinando a matriz curricular comum com disciplinas eletivas escolhidas com base nos seus projetos de vida pessoais e acadêmicos.</p>
-                    <p>A rotina conta com alimentação balanceada, orientação de estudos dedicada, práticas ativas em laboratório e clubes juvenis geridos pelos próprios estudantes, incentivando o protagonismo juvenil.</p>
-                </div>
-                <div class="info-features">
-                    <div class="feature-item">
-                        <i class="fa-solid fa-clock feature-item__icon"></i>
-                        <div>
-                            <h4>Jornada Ampliada</h4>
-                            <p>Carga horária expandida para maior aprofundamento das competências.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-graduation-cap feature-item__icon"></i>
-                        <div>
-                            <h4>Projeto de Vida</h4>
-                            <p>Apoio contínuo para traçar metas futuras e caminhos profissionais.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="itinerarios" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Itinerários Formativos</h2>
-            <p class="section__subtitle">Aprofundamentos de estudos que preparam os alunos para o mercado de trabalho e universidade.</p>
-            
-            <div class="grid grid--2-cols">
-                <article class="card card--horizontal">
-                    <div class="card__icon-box">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <div class="card__content">
-                        <h3>Desenvolvimento de Sistemas (Técnico)</h3>
-                        <p>Focado em programação front-end, lógica de desenvolvimento, arquitetura de sistemas e banco de dados. Prepara os estudantes diretamente para a alta demanda profissional da área tecnológica de Campinas e região.</p>
-                    </div>
-                </article>
-
-                <article class="card card--horizontal">
-                    <div class="card__icon-box">
-                        <i class="fa-solid fa-flask"></i>
-                    </div>
-                    <div class="card__content">
-                        <h3>Enfermagem (Técnico)</h3>
-                        <p>descrição</p>
-                    </div>
-                </article>
-
-                <article class="card card--horizontal">
-                    <div class="card__icon-box">
-                        <i class="fa-solid fa-book"></i>
-                    </div>
-                    <div class="card__content">
-                        <h3>Ciências Humanas e Sociais Aplicadas</h3>
-                        <p>Aprofundamento voltado para a compreensão das transformações sociais, história, filosofia e geopolítica, preparando o estudante para a análise crítica do mundo contemporâneo.</p>
-                    </div>
-                </article>
-
-                <article class="card card--horizontal">
-                    <div class="card__icon-box">
-                        <i class="fa-solid fa-book"></i>
-                    </div>
-                    <div class="card__content">
-                        <h3>Exatas e Ciências da Natureza</h3>
-                        <p>descrição</p>
-                    </div>
-                </article>
-                
-            </div>
-        </div>
-    </section>
-
-    <section id="projetos" class="section section--dark">
-        <div class="section__container">
-            <h2 class="section__title">Nossos Projetos</h2>
-            <p class="section__subtitle">Iniciativas que estimulam o conhecimento prático e a pesquisa científica.</p>
-            
-            <div class="grid grid--4-cols">
-                <div class="project-box">
-                    <i class="fa-solid fa-microscope project-box__icon"></i>
-                    <h3>PIBIC</h3>
-                    <p>Iniciação científica em parceria com universidades locais.</p>
-                </div>
-                <div class="project-box">
-                    <i class="fa-solid fa-lightbulb project-box__icon"></i>
-                    <h3>Feira de Ciências</h3>
-                    <p>Exposição anual de protótipos e teses criadas pelos alunos.</p>
-                </div>
-                <div class="project-box">
-                    <i class="fa-solid fa-medal project-box__icon"></i>
-                    <h3>Olimpíadas</h3>
-                    <p>Preparação para a OBMEP, OBA e outras olimpíadas nacionais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="eventos" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Calendário de Eventos</h2>
-            <p class="section__subtitle">Fique por dentro das datas mais importantes da nossa escola.</p>
-            
-            <div class="events-list">
-                <div class="event-row">
-                    <div class="event-row__date">
-                        <span class="event-row__day">15</span>
-                        <span class="event-row__month">AGO</span>
-                    </div>
-                    <div class="event-row__details">
-                        <h3>Feira Cultural Anual</h3>
-                        <p>Abertura do prédio histórico para exposição dos projetos artísticos e literários.</p>
-                    </div>
-                </div>
-                <div class="event-row">
-                    <div class="event-row__date">
-                        <span class="event-row__day">04</span>
-                        <span class="event-row__month">SET</span>
-                    </div>
-                    <div class="event-row__details">
-                        <h3>Mostra de Tecnologia e Robótica</h3>
-                        <p>Apresentação prática dos projetos do itinerário técnico de Desenvolvimento de Sistemas.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="jornal" class="section section--dark">
-        <div class="section__container">
-            <h2 class="section__title">Jornal Escolar</h2>
-            <p class="section__subtitle">As últimas notícias, acontecimentos e conquistas da nossa comunidade acadêmica.</p>
-            
-            <div class="grid grid--3-cols">
-                <article class="card card--news">
-                    <img src="[https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80](https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80)" alt="Alunos estudando em computadores" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">Escola Recebe Novos Equipamentos de TI</h3>
-                        <p class="card__text">Os laboratórios de informática receberam melhorias completas de infraestrutura para atender as turmas de desenvolvimento de sistemas.</p>
-                        <button class="btn btn--text">Leia Mais <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                <article class="card card--news">
-                    <img src="[https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500&q=80](https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500&q=80)" alt="Estudantes participando de premiação" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">Destaque na Olimpíada de Matemática</h3>
-                        <p class="card__text">Alunos do Ensino Médio conquistaram medalhas de ouro e menções honrosas na última edição da OBMEP deste ano.</p>
-                        <button class="btn btn--text">Leia Mais <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                <article class="card card--news">
-                    <img src="[https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500&q=80](https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500&q=80)" alt="Livros antigos em uma biblioteca escolar" class="card__img">
-                    <div class="card__content">
-                        <h3 class="card__title">Projeto de Restauro do Acervo Histórico</h3>
-                        <p class="card__text">Em parceria com historiadores e voluntários, livros centenários guardados na escola começam a passar por digitalização.</p>
-                        <button class="btn btn--text">Leia Mais <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section id="acervo" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Acervo Cultural</h2>
-            <p class="section__subtitle">Itens raros, memórias documentadas e relíquias guardadas pela escola.</p>
-            
-            <div class="grid grid--3-cols">
-                <div class="archive-item">
-                    <i class="fa-solid fa-boxes-stacked archive-item__icon"></i>
-                    <h3>Objetos Históricos</h3>
-                    <p>Instrumentos científicos antigos, microscópios de latão do século XIX e mobiliários originais preservados.</p>
-                </div>
-                <div class="archive-item">
-                    <i class="fa-solid fa-file-lines archive-item__icon"></i>
-                    <h3>Documentos Raros</h3>
-                    <p>Atas oficiais de fundação, diários de classe históricos e registros de matrículas de figuras ilustres de Campinas.</p>
-                </div>
-                <div class="archive-item">
-                    <i class="fa-solid fa-images archive-item__icon"></i>
-                    <h3>Fotografias Antigas</h3>
-                    <p>Registros visuais do cotidiano escolar, ampliações da arquitetura urbana e turmas formadas no século passado.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="galeria" class="section section--dark">
-        <div class="section__container">
-            <h2 class="section__title">Galeria de Fotos</h2>
-            <p class="section__subtitle">Explore imagens reais das nossas dependências e eventos cotidianos.</p>
-            
-            <div class="gallery-grid">
-                <div class="gallery-grid__item">
-                    <img src="[https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80)" alt="Prédio Histórico da Escola - Visão Frontal" class="gallery-grid__img" data-index="0">
-                </div>
-                <div class="gallery-grid__item">
-                    <img src="[https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80)" alt="Biblioteca com mesas para estudos e pesquisas" class="gallery-grid__img" data-index="1">
-                </div>
-                <div class="gallery-grid__item">
-                    <img src="[https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80)" alt="Laboratório moderno montado para aulas práticas" class="gallery-grid__img" data-index="2">
-                </div>
-                <div class="gallery-grid__item">
-                    <img src="[https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80)" alt="Sala de aula durante atividades integradas em grupo" class="gallery-grid__img" data-index="3">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Visualizador de imagens expandido">
-        <button id="lightbox-close" class="lightbox__close" aria-label="Fechar visualização">&times;</button>
-        <button id="lightbox-prev" class="lightbox__arrow lightbox__arrow--left" aria-label="Imagem anterior">&#10094;</button>
-        <div class="lightbox__content">
-            <img id="lightbox-img" src="" alt="" class="lightbox__image">
-            <div id="lightbox-caption" class="lightbox__caption"></div>
-        </div>
-        <button id="lightbox-next" class="lightbox__arrow lightbox__arrow--right" aria-label="Próxima imagem">&#10095;</button>
     </div>
 
-    <section id="contato" class="section section--light">
-        <div class="section__container">
-            <h2 class="section__title">Contato</h2>
-            <p class="section__subtitle">Tem dúvidas? Fale conosco ou venha nos fazer uma visita.</p>
-            
-            <div class="grid grid--2-cols">
-                <div class="contact-info">
-                    <h3>Secretaria da Escola</h3>
-                    <p class="contact-info__item"><i class="fa-solid fa-location-dot"></i> Rua Custódio Manuel Teixeira, s/n - Botafogo, Campinas - SP, CEP 13020-020</p>
-                    <p class="contact-info__item"><i class="fa-solid fa-phone"></i> (19) 3231-4566</p>
-                    <p class="contact-info__item"><i class="fa-solid fa-envelope"></i> e000123a@educacao.sp.gov.br</p>
-                    
-                    <div class="contact-info__map">
-                        <img src="[https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=500&q=80](https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=500&q=80)" alt="Mapa ilustrativo da localização em Campinas" class="contact-info__map-img">
-                    </div>
+    <!--HEADER & NAVEGAÇÃO-->
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="#hero" class="header__brand" aria-label="Página Inicial - Escola Estadual Culto à Ciência">
+                <div class="header__logo-icon">
+                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
                 </div>
-            </div>
-        </div>
-    </section>
+                <div class="header__titles">
+                    <span class="header__school-name">E. E. Culto À Ciência</span>
+                    <span class="header__tagline">Campinas - SP</span>
+                </div>
+            </a>
 
-</main>
+            <!-- tres barrinhas do menu do celular-->
+            <button type="button" class="header__hamburger" id="hamburger-btn" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="main-nav">
+                <span class="header__hamburger-bar"></span>
+                <span class="header__hamburger-bar"></span>
+                <span class="header__hamburger-bar"></span>
+            </button>
 
-<footer class="footer">
-    <div class="footer__container">
-        <div class="grid grid--3-cols">
-            <div>
-                <h3 class="footer__title">E.E. Culto à Ciência</h3>
-                <p class="footer__text">Tradição de ensino público de qualidade focado no protagonismo e desenvolvimento integral dos nossos jovens alunos.</p>
-            </div>
-            <div>
-                <h3 class="footer__title">Links Rápidos</h3>
-                <ul class="footer__links">
-                    <li><a href="#inicio">Início</a></li>
-                    <li><a href="#historia">História</a></li>
-                    <li><a href="#itinerarios">Itinerários</a></li>
-                    <li><a href="#contato">Contato</a></li>
+            <!-- Menu Principal -->
+            <nav class="header__nav" id="main-nav" aria-label="Navegação Principal">
+                <ul class="header__menu">
+                    <li class="header__item"><a href="#hero" class="header__link">Início</a></li>
+                    <li class="header__item"><a href="#historia" class="header__link">História</a></li>
+                    <li class="header__item"><a href="#gestao" class="header__link">Gestão</a></li>
+                    <li class="header__item"><a href="#professores" class="header__link">Professores</a></li>
+                    <li class="header__item"><a href="#integral" class="header__link">Ensino Integral & Itinerários</a></li>
+                    <li class="header__item"><a href="#projetos" class="header__link">Projetos</a></li>
+                    <li class="header__item"><a href="#acervo" class="header__link">Acervo</a></li>
+                    <li class="header__item"><a href="#galeria" class="header__link">Galeria</a></li>
+                    <li class="header__item"><a href="#contato" class="header__link header__link--highlight">Contato</a></li>
                 </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!--principal (main) -->
+    <main id="conteudo-principal">
+
+        <!-- pagina inicial convidativa (hero) -->
+        <section class="hero" id="hero" aria-label="Apresentação da Escola">
+            <div class="hero__overlay"></div>
+            <div class="hero__container">
+                <div class="hero__content">
+                    <span class="hero__badge">
+                        <i aria-hidden="true"></i> Tradição que encontra o futuro
+                    </span>
+                    <h1 class="hero__title">Há 153 anos transformando gerações.</h1>
+                    <p class="hero__subtitle">
+                        Bem-vindos à Escola Estadual Culto à Ciência. Uma instituição histórica em Campinas que une tradição, inovação pedagógica e compromisso com o desenvolvimento dos nossos estudantes.
+                    </p>
+                    <div class="hero__actions">
+                        <a href="#historia" class="btn btn--primary">Conheça a escola</a>
+                        <a href="#integral" class="btn btn--outline">Nosso Modelo</a>
+                    </div>
+                </div>
+
+               <div class="hero__visual">
+                <div class="mascote-box">
+                    <button type="button" class="mascote-btn-abrir" id="btn-abrir-cultinho" title="Falar com o Cultinho">
+                        <div class="mascote" id="mascote-hero">
+                            <div class="mascote__avatar">
+                                <img src="galeria/mascote.jpeg" alt="Mascote Cultinho" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                <div class="mascote__badge">
+                                    <i class="fa-solid fa-atom" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="mascote__speech">
+                                <span>Olá! Sou o <strong>Cultinho</strong>! Clique aqui e vamos conversar!</span>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="hero__image-card">
+                    <img src="galeria/fachada.jpg" alt="Fachada Histórica da Escola Culto à Ciência" style="width: 100%; height: 260px; object-fit: cover; display: block;">
+                </div>
+</div>
+</div>
+</section>
+
+        <!--historia da escola e livro-->
+        <section class="section historia" id="historia" aria-labelledby="titulo-historia">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Memória & Tradição</span>
+                    <h2 class="section__title" id="titulo-historia">História da Escola</h2>
+                    <p class="section__description">
+                        Fundada em 1873 pela Sociedade Culto à Ciência, nossa instituição nasceu inspirada pelos ideais iluministas e positivistas. Ao longo de mais de um século, nosso prédio centenário, hoje tombado como patrimônio arquitetônico e cultural, consolidou-se como um verdadeiro marco na educação pública paulista. Mais do que história, nossas salas abrigaram gerações de estudantes, cientistas e personalidades que transformaram Campinas e o Brasil.
+                    </p>
+                </header>
+
+                <div class="historia__cards">
+                    <article class="card-historia">
+                        <div class="card-historia__icon">
+                            <i class="fa-solid fa-book-bookmark" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="card-historia__title">Fundação (1873)</h3>
+                        <p class="card-historia__text">
+                            Nascida sob o impulso dos ideais republicanos e abolicionistas, a escola trouxe uma proposta revolucionária para a época: promover um ensino estritamente científico, laico e focado no pensamento crítico desde os seus primeiros dias.
+                        </p>
+                    </article>
+
+                    <article class="card-historia">
+                        <div class="card-historia__icon">
+                            <i class="fa-solid fa-monument" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="card-historia__title">Patrimônio Histórico</h3>
+                        <p class="card-historia__text">
+                            Inspirado nos moldes da arquitetura clássica francesa, o desenho de nosso prédio principal é tombado pelo CONDEPHAAT, preservando a identidade cultural e a memória de Campinas.
+                        </p>
+                    </article>
+
+                    <article class="card-historia">
+                        <div class="card-historia__icon">
+                            <i class="fa-solid fa-city" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="card-historia__title">Legado Cidadão</h3>
+                        <p class="card-historia__text">
+                            Como uma verdadeira referência educacional, o Culto à Ciência formou mentes brilhantes ao longo de sua história e continua sendo um pilar de excelência no ensino público, inspirando e preparando as novas gerações.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="historia__livro-digital">
+                    <div class="livro-digital__capa">
+                        <img src="livro/pg1.png" alt="Capa do Livro Culto à Ciência, Cento e Treze Anos a Serviço da Cultura" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--raio-borda-peq);">
+                        
+                    </div>
+                    <div class="livro-digital__info">
+                        <span class="livro-digital__tag"><i class="fa-solid fa-book-open"></i> Acervo Histórico</span>
+                        <h3 class="livro-digital__title">Culto à Ciência, Cento e Treze Anos a Serviço da Cultura</h3>
+                        <p class="livro-digital__sinopse">
+                            Explore a monografia oficial que detalha a fundação, a evolução estrutural e o impacto educacional da escola desde 1873. Um registro valioso compilado por educadores históricos.
+                        </p>
+                        <div class="livro-digital__acoes">
+                            <button type="button" id="btn-ler-livro" class="btn btn--primary">
+                                Ler Online
+                              </button>
+                            <a href="#" class="btn btn--outline" download style="border-color: var(--cor-primaria); color: var(--cor-primaria);">
+                                <i class="fa-solid fa-download"></i> Baixar PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="footer__title">Redes Sociais</h3>
-                <div class="footer__socials">
-                    <a href="#" aria-label="Facebook da Escola"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram da Escola"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="YouTube institucional"><i class="fa-brands fa-youtube"></i></a>
+        </section>
+
+        <!--gestao-->
+        <section class="section gestao" id="gestao" aria-labelledby="titulo-gestao">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Liderança & Organização</span>
+                    <h2 class="section__title" id="titulo-gestao">Gestão Escolar</h2>
+                    <p class="section__description">
+                        Equipe dedicada à gestão pedagógica e administrativa.
+                    </p>
+                </header>
+
+                <div class="gestao__grid">
+                    <article class="card-gestao">
+                        <div class="card-gestao__image-container">
+                            <img src="gestao/glauber.jpeg" alt="Foto do Diretor Glauber" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="card-gestao__content">
+                            <h3 class="card-gestao__name">Glauber</h3>
+                            <span class="card-gestao__role">Diretor de Escola</span>
+                        </div>
+                    </article>
+
+                    <article class="card-gestao">
+                        <div class="card-gestao__image-container">
+                            <img src="gestao/andreia.jpeg" alt="Foto da Vice-Diretora Andreia" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="card-gestao__content">
+                            <h3 class="card-gestao__name">Andreia</h3>
+                            <span class="card-gestao__role">Vice-Diretora</span>
+                        </div>
+                    </article>
+
+                    <article class="card-gestao">
+                        <div class="card-gestao__image-container">
+                            <img src="gestao/bruna.jpeg" alt="Foto da Coordenadora Natália" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="card-gestao__content">
+                            <h3 class="card-gestao__name">Bruna</h3>
+                            <span class="card-gestao__role">Coordenadora de Gestão Pedagógica Geral</span>
+                        </div>
+                    </article>
+
+                    <article class="card-gestao">
+                        <div class="card-gestao__image-container">
+                            <img src="gestao/natalia.jpeg" alt="Foto da Coordenadora Bruna" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="card-gestao__content">
+                            <h3 class="card-gestao__name">Natália</h3>
+                            <span class="card-gestao__role">Coordenadora de Gestão Pedagógica Geral</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!--professores-->
+        <section class="section professores" id="professores" aria-labelledby="titulo-professores">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Corpo Docente</span>
+                    <h2 class="section__title" id="titulo-professores">Nossos Professores</h2>
+                    <p class="section__description">
+                        Clique em uma das áreas abaixo para abrir a pasta e visualizar os professores e suas respectivas disciplinas.
+                    </p>
+                </header>
+
+                <div class="professores__grid">
+                    <button type="button" class="professores__pasta-card" data-area="linguagens" aria-label="Abrir pasta de Professores de Linguagens">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Linguagens</h3>
+                        </div>
+                    </button>
+
+                    <button type="button" class="professores__pasta-card" data-area="exatas" aria-label="Abrir pasta de Professores de Exatas">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Matemática</h3>
+                        </div>
+                    </button>
+
+                    <button type="button" class="professores__pasta-card" data-area="humanas" aria-label="Abrir pasta de Professores de Ciências Humanas">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Ciências Humanas</h3>
+                        </div>
+                    </button>
+
+                    <button type="button" class="professores__pasta-card" data-area="natureza" aria-label="Abrir pasta de Professores de Ciências da Natureza">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Ciências da Natureza</h3>
+                        </div>
+                    </button>
+
+                    <button type="button" class="professores__pasta-card" data-area="tecnico" aria-label="Abrir pasta de Professores do Técnico">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Ensino Técnico</h3>
+                        </div>
+                    </button>
+    
+                     <button type="button" class="professores__pasta-card" data-area="especial" aria-label="Abrir pasta de Professores da Educação Especial">
+                        <div class="professores__pasta-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></div>
+                        <div class="professores__content">
+                            <span class="professores__area">Área do Conhecimento</span>
+                            <h3 class="professores__name">Apoio</h3>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!--integral e itnerário-->
+        <section class="section integral" id="integral" aria-labelledby="titulo-integral">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Modelo Pedagógico</span>
+                    <h2 class="section__title" id="titulo-integral">Ensino Integral & Itinerários</h2>
+                    <p class="section__description">
+                        Hoje, consolidando sua trajetória de inovação, o Culto à Ciência atua integralmente sob o modelo do PEI (Programa de Ensino Integral).
+                        Com uma jornada ampliada de 9 horas diárias, a escola oferece uma estrutura que conecta a excelência acadêmica ao desenvolvimento humano. A nossa escola oferece quatro diferentes Itinerários Formativos, sendo eles:
+                    </p>
+                </header>
+
+                <div class="itinerarios__grid">
+                    <article class="card-itinerario card-itinerario--humanas">
+                        <div class="card-itinerario__header">
+                            <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+                            <h3 class="card-itinerario__title">Linguagens e Ciências Humanas e Sociais</h3>
+                        </div>
+                        <p class="card-itinerario__desc">O itinerário de Linguagens e Ciências Humanas é focado no pensamento crítico, na comunicação e nas atualidades. O estudante aprofunda conteúdos de filosofia, sociologia e geografia para os vestibulares, enquanto desenvolve habilidades práticas como oratória, liderança e produção de mídias digitais.</p>
+                    </article>
+
+                    <article class="card-itinerario card-itinerario--exatas">
+                        <div class="card-itinerario__header">
+                            <i class="fa-solid fa-square-root-variable" aria-hidden="true"></i>
+                            <h3 class="card-itinerario__title">Matemática e Ciências da Natureza</h3>
+                        </div>
+                        <p class="card-itinerario__desc">O itinerário de Matemática e Ciências da Natureza une exatas e ciências com foco prático. O estudante aprende programação básica e empreendedorismo ao mesmo tempo em que aprofunda os conteúdos de biologia e química mais cobrados nos vestibulares.</p>
+                    </article>
+
+                    <article class="card-itinerario card-itinerario--tech">
+                        <div class="card-itinerario__header">
+                            <i class="fa-solid fa-code" aria-hidden="true"></i>
+                            <h3 class="card-itinerario__title">Desenvolvimento de Sistemas</h3>
+                        </div>
+                        <p class="card-itinerario__desc">O curso técnico em Desenvolvimento de Sistemas ensina a criar aplicativos, sites e softwares. O estudante aprende programação, banco de dados e segurança da informação, conciliando as matérias tradicionais do ensino médio no 2º ano com o foco total na parte técnica no 3º ano, sem estágio obrigatório.</p>
+                    </article>
+
+                    <article class="card-itinerario card-itinerario--saude">
+                        <div class="card-itinerario__header">
+                            <i class="fa-solid fa-user-nurse" aria-hidden="true"></i>
+                            <h3 class="card-itinerario__title">Enfermagem</h3>
+                        </div>
+                        <p class="card-itinerario__desc">O curso técnico em Enfermagem prepara o estudante para atuar na área da saúde com foco em cuidado humanizado e procedimentos práticos, como primeiros socorros, urgência. Conciliando as matérias tradicionais do ensino médio no 2º ano com o foco total na parte técnica no 3º ano, e o estágio obrigatório é realizado no ano seguinte (aos 18 anos).</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!--projetos-->
+        <section class="section projetos" id="projetos" aria-labelledby="titulo-projetos">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Iniciativas e Eventos</span>
+                    <h2 class="section__title" id="titulo-projetos">Projetos da Escola</h2>
+                    <p class="section__description">
+                        Conheça os projetos extracurriculares e eventos culturais desenvolvidos pelos nossos alunos e professores, que enriquecem a experiência educacional no Culto à Ciência.
+                    </p>
+                </header>
+
+                <div class="projetos__grid">
+                    <a href="https://sites.google.com/prof.educacao.sp.gov.br/cultoaciencia/culto-%C3%A0-ci%C3%AAncia/9%C2%AA-feira-de-ci%C3%AAncias" target="_blank" rel="noopener noreferrer" class="card-projeto">
+                        <div class="card-projeto__img">
+                            <img src="projetos/feira-cien.png" alt="Feira de Ciências" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="card-projeto__content">
+                            <h3 class="card-projeto__title">Feira de Ciências</h3>
+                            <p class="card-projeto__desc">Clique para acessar o site oficial com informações sobre a nossa Feira de Ciências.</p>
+                            <span class="card-projeto__link-text"><i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Site</span>
+                        </div>
+                    </a>
+
+                    
+
+                    <a href="https://negritudeemfoco.netlify.app" target="_blank" rel="noopener noreferrer" class="card-projeto">
+                        <div class="card-projeto__img">
+                            <img src="projetos/negritude.png" alt="Consciência Negra" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="card-projeto__content">
+                            <h3 class="card-projeto__title">Negritude em Foco</h3>
+                            <p class="card-projeto__desc">Clique para acessar o site oficial com informações sobre o nosso projeto Negritude em Foco.</p>
+                            <span class="card-projeto__link-text"><i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Site</span>
+                        </div>
+                    </a>
+
+                    <a href="https://cacreport.netlify.app" target="_blank" rel="noopener noreferrer" class="card-projeto">
+                        <div class="card-projeto__img">
+                            <img src="projetos/cac-report.jpg" alt="Consciência Negra" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="card-projeto__content">
+                            <h3 class="card-projeto__title">CAC Report</h3>
+                            <p class="card-projeto__desc">Clique para acessar o site oficial com informações sobre o nosso projeto de denúncias responsáveis.</p>
+                            <span class="card-projeto__link-text"><i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Site</span>
+                        </div>
+                    </a>
+                    <a href="jornal.html" target="_blank" rel="noopener noreferrer" class="card-projeto">
+                        <div class="card-projeto__img">
+                            <img src="projetos/jornal.png" alt="Boletim Semanal Culto à Ciência" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='curiosidades/curiosidade4.jpg';">
+                        </div>
+                        <div class="card-projeto__content">
+                            <h3 class="card-projeto__title">Boletim Semanal</h3>
+                            <p class="card-projeto__desc">Clique para acessar o Jornal da nossa escola.</p>
+                            <span class="card-projeto__link-text"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ler Jornal da Semana</span>
+                        </div>
+                    </a>
+
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--acervo e curiosidades-->
+<section class="section" id="acervo">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__subtitle">Museu Digital & Memória</span>
+        <h2 class="section__title">Acervo Cultural</h2>
+        <p class="section__description">
+          O acervo do Culto à Ciência é um dos maiores patrimônios escolares do Brasil. Ele reúne mais de 20 mil livros (com obras dos séculos XVII e XVIII) e diários de classe de alunos ilustres, como Alberto Santos Dumont. A escola também preserva um gabinete com instrumentos científicos do século XIX trazidos da Europa e um museu de história natural, mantidos com o apoio técnico da Unicamp. Confira a seguir:
+        </p>
+      </div>
+  
+      <div class="acervo__grid">
+        <!-- CARD 1: MUSEU -->
+        <div class="acervo__item" data-category="fotos_acervo">
+          <div class="acervo__placeholder-img">
+            <img src="museu/acervo1.jpg" class="acervo__icon-img" alt="Fachada ou interior do Museu da Escola">
+          </div>
+          <div class="acervo__content">
+            <span class="acervo__category">MUSEU/</span>
+            <h3 class="acervo__title">Museu</h3>
+            <p class="acervo__desc">
+              O Museu de História da escola Culto à Ciência reúne materiais didáticos e biológicos preservados desde o século XIX.
+            </p>
+          </div>
+        </div>
+  
+        <!-- CARD 2: BIBLIOTECA HISTÓRICA -->
+        <div class="acervo__item" data-category="biblioteca_acervo">
+          <div class="acervo__placeholder-img">
+            <img src="biblioteca/biblio.12.jpg" class="acervo__icon-img" alt="Estantes com livros antigos da Biblioteca Histórica">
+          </div>
+          <div class="acervo__content">
+            <span class="acervo__category">BIBLIOTECA/</span>
+            <h3 class="acervo__title">Biblioteca Histórica</h3>
+            <p class="acervo__desc">
+              A Biblioteca do Culto à Ciência reúne mais de 20 mil livros originais. Hoje, o espaço funciona como Centro de Memória apoiado pela Unicamp.
+            </p>
+          </div>
+        </div>
+  
+        <!-- CARD 3: CURIOSIDADES -->
+        <div class="acervo__item" data-category="curiosidades">
+          <div class="acervo__placeholder-img">
+            <img src="curiosidades/curiosidade11.jpg" class="acervo__icon-img" alt="Detalhe do Tijolo Imperial ou estrutura antiga">
+          </div>
+          <div class="acervo__content">
+            <span class="acervo__category">CURIOSIDADE/</span>
+            <h3 class="acervo__title">Curiosidades</h3>
+            <p class="acervo__desc">
+              Você sabia que este edifício em Campinas é a escola pública mais antiga do Brasil a funcionar sem interrupções no mesmo lugar? Inaugurado em 1873, o prédio é um verdadeiro monumento histórico.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+        <!--galeria-->
+        <section class="section galeria" id="galeria" aria-labelledby="titulo-galeria">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Estrutura e Espaços</span>
+                    <h2 class="section__title" id="titulo-galeria">Galeria da Escola</h2>
+                    <p class="section__description">
+                        Inaugurado em 1873, este edifício em Campinas é a escola pública mais antiga do Brasil a funcionar sem interrupções no mesmo lugar. Através destas imagens, você poderá contemplar sua fachada clássica, seus portões marcantes e seus jardins centenários.
+                    </p>
+                </header>
+
+                <div class="galeria__grid">
+                    <div class="galeria__item">
+                        <img src="galeria/galeria15.jpg" alt="Fachada em diagonal do prédio principal" style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    </div>
+                    <div class="galeria__item">
+                        <img src="galeria/galeria5.jpg" alt="Laboratório de Biologia" style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    </div>
+                    <div class="galeria__item">
+                        <img src="galeria/galeria19.jpg" alt="Quadra Poliesportiva" style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    </div>
+                </div> 
+
+                <!-- link para a galeria-->
+                <div style="text-align: center; margin-top: 2.5rem;">
+                    <a href="galeria.html" class="btn btn--primary">
+                        <i class="fa-solid fa-images" aria-hidden="true"></i> Ver todas as fotos
+                    </a>
+                </div>
+                
+            </div>
+        </section>
+
+        <!--administradores-->
+        <section class="section ds" id="ds" aria-labelledby="titulo-ds">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Desenvolvimento do Culto WEB</span>
+                    <h2 class="section__title" id="titulo-ds">Sobre Nós</h2>
+                    <p class="section__description">
+                        Site desenvolvido para o TCC da 1ª turma de Técnico em Desenvolvimento de Sistemas da Escola Estadual Culto À Ciência.
+                    </p>
+                </header>
+                 <div class="ds__grid">
+                
+
+                <!-- link para o sobre nós-->
+                <div style="text-align: center; margin-top: 2.5rem;">
+                    <a href="ds.html" class="btn btn--primary">
+                        <i class="fas fa-user-friends"></i></i> Conheça sobre nós
+                    </a>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- Lightbox Modal (amplia a foto)-->
+        
+
+        <!--contato-->
+        <section class="section contato" id="contato" aria-labelledby="titulo-contato">
+            <div class="container">
+                <header class="section__header">
+                    <span class="section__subtitle">Atendimento</span>
+                    <h2 class="section__title" id="titulo-contato">Contato</h2>
+                </header>
+
+                <div class="contato__grid">
+                    <div class="contato__info">
+                        <h3 class="contato__info-title">Escola Estadual Culto à Ciência</h3>
+                        <div class="contato__item">
+                            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                            <div>
+                                <strong>Endereço:</strong>
+                                <p>R. Culto à Ciência, 422 - Botafogo, Campinas - SP, 13020-060</p>
+                            </div>
+                        </div>
+                        <div class="contato__item">
+                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                            <div>
+                                <strong>Telefone:</strong>
+                                <p>(19) 3232-3511</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!--modal de pasta acervo e professores (ao clicar no card é aberta uma pasta, o js organiza as fotos da pasta)-->
+    <div class="modal-acervo" id="modal-acervo" role="dialog" aria-modal="true" aria-label="Pasta de Itens do Acervo" hidden>
+        <div class="modal-acervo__backdrop" id="modal-acervo-backdrop"></div>
+        <div class="modal-acervo__window">
+            <header class="modal-acervo__header">
+                <div class="modal-acervo__header-title">
+                    <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                    <h3 id="modal-acervo-titulo">Pasta do Acervo</h3>
+                </div>
+                <button type="button" class="modal-acervo__close" id="modal-acervo-close" aria-label="Fechar pasta">&times;</button>
+            </header>
+            <div class="modal-acervo__body">
+                <p class="modal-acervo__desc" id="modal-acervo-desc">Conteúdo da pasta.</p>
+                <div class="modal-acervo__grid" id="modal-acervo-grid">
+                    <!--o conteudo fica no js-->
                 </div>
             </div>
         </div>
-        
-        <hr class="footer__divider">
-        
-        <div class="footer__bottom">
-            <p class="footer__copy">&copy; 2026 Escola Estadual Culto à Ciência. Todos os direitos reservados.</p>
-            <p class="footer__tcc">Projeto desenvolvido para fins educacionais - TCC de Arquitetura Front-end.</p>
+    </div>
+
+    <div class="modal-professores" id="modal-professores" role="dialog" aria-modal="true" aria-label="Pasta da Área do Conhecimento" hidden>
+        <div class="modal-professores__backdrop" id="modal-professores-backdrop"></div>
+        <div class="modal-professores__window">
+            <header class="modal-professores__header">
+                <div class="modal-professores__header-title">
+                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                    <h3 id="modal-professores-titulo">Professores da Área</h3>
+                </div>
+                <button type="button" class="modal-professores__close" id="modal-professores-close" aria-label="Fechar lista de professores">&times;</button>
+            </header>
+            <div class="modal-professores__body">
+                <p class="modal-professores__desc" id="modal-professores-desc">Corpo docente.</p>
+                <div class="modal-professores__grid" id="modal-professores-grid">
+                    <!-- imagens no js organizado em lista-->
+                </div>
+            </div>
         </div>
     </div>
-</footer>
 
-<button id="btn-back-to-top" class="back-to-top" aria-label="Voltar para o topo da página">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
+    <!-- modal dos projetos-->
+    <div class="modal-projetos" id="modal-projetos" role="dialog" aria-modal="true" aria-label="Fotos do Projeto" hidden>
+        <div class="modal-projetos__backdrop" id="modal-projetos-backdrop"></div>
+        <div class="modal-projetos__window">
+            <header class="modal-projetos__header">
+                <div class="modal-projetos__header-title">
+                    <i class="fa-solid fa-images" aria-hidden="true"></i>
+                    <h3 id="modal-projetos-titulo">Fotos do Projeto</h3>
+                </div>
+                <button type="button" class="modal-projetos__close" id="modal-projetos-close" aria-label="Fechar pasta">&times;</button>
+            </header>
+            <div class="modal-projetos__body">
+                <p class="modal-projetos__desc" id="modal-projetos-desc">Galeria de fotos.</p>
+                <div class="modal-projetos__grid" id="modal-projetos-grid">
+                    <!--fotos em lista no js-->
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="chatbot-wrapper">
-    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Abrir assistente virtual">
-        <i class="fa-solid fa-comments"></i>
+   <!--chat bot-->
+<aside class="chatbot" id="chatbot-container" aria-label="Assistente Virtual da Escola">
+
+    <!--formato do botão (pilula)-->
+    <button type="button" class="chatbot__toggle" id="chatbot-toggle-btn" aria-label="Abrir assistente Cultinho" aria-expanded="false">
+        <div class="chatbot__toggle-avatar">
+            <img src="galeria/mascote.jpeg" alt="Cultinho Mini">
+        </div>
+        <span class="chatbot__toggle-label">Dúvidas? Fale com o Cultinho</span>
     </button>
 
-    <div id="chatbot-box" class="chatbot" aria-hidden="true">
+    <div class="chatbot__window" id="chatbot-window" hidden>
+        <!-- escrita alinhada com a foto e botao X de fechar -->
         <header class="chatbot__header">
-            <div class="chatbot__title">
-                <i class="fa-solid fa-robot"></i> <span>Assistente Culto à Ciência</span>
+            <div class="chatbot__header-info">
+                <div class="chatbot__mascote-header">
+                    <img src="galeria/mascote.jpeg" alt="Cultinho Mini">
+                </div>
+                <div>
+                    <strong class="chatbot__title">Cultinho</strong>
+                    <span class="chatbot__status">Assistente Virtual</span>
+                </div>
             </div>
-            <button id="chatbot-close" class="chatbot__close" aria-label="Fechar assistente virtual">&times;</button>
+            <!-- Botão de Fechar (X) -->
+            <button type="button" class="chatbot__close" id="chatbot-close-btn" aria-label="Fechar assistente">&times;</button>
         </header>
-        
+
         <div class="chatbot__messages" id="chatbot-messages">
-            <div class="chatbot__msg chatbot__msg--bot">
-                Olá! Sou o assistente virtual da Escola Culto à Ciência. Como posso ajudar você hoje?
+            <div class="chatbot__message chatbot__message--bot">
+                <p>Olá! Sou o <strong>Cultinho</strong>, mascote do Culto à Ciência! Como posso ajudar você hoje?</p>
             </div>
         </div>
-        
-        <form id="chatbot-form" class="chatbot__input-area">
-            <input type="text" id="chatbot-input" class="chatbot__input" placeholder="Digite sua dúvida aqui..." aria-label="Mensagem para o assistente">
-            <button type="submit" class="chatbot__submit" aria-label="Enviar mensagem">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
+        <form class="chatbot__input-area" id="chatbot-form">
+            <input type="text" id="chatbot-input" class="chatbot__input" placeholder="Digite sua dúvida...">
+            <button type="submit" class="chatbot__send-btn"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
+    </div>
+</aside>
 
+    <!--pé-->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__col">
+                    <div class="footer__brand">
+                        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                        <span>E.E. Culto à Ciência</span>
+                    </div>
+                    <p class="footer__text">
+                        Tradição centenária na formação de jovens e inovação no ensino público em Campinas-SP.
+                    </p>
+                </div>
+                <div class="footer__col">
+                    <h3 class="footer__title">Localização</h3>
+                    <p class="footer__address">
+                        R. Culto à Ciência, 422 - Botafogo, Campinas - SP, 13020-060
+                    </p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 Escola Estadual Culto à Ciência. Todos os direitos reservados.</p>
+            </div>
         </div>
-</div>
+    </footer>
+    <script>
+window.addEventListener('load', function() {
+    // 1. Arredondar e diminuir a foto do Sobre Nós
+    document.querySelectorAll('h1, h2, h3, span').forEach(function(el) {
+        if (el.textContent.toLowerCase().includes('sobre nós')) {
+            var secao = el.closest('section') || el.parentElement.parentElement;
+            if (secao) {
+                var img = secao.querySelector('img');
+                if (img) {
+                    img.style.setProperty('width', '100%', 'important');
+                    img.style.setProperty('max-width', '350px', 'important');
+                    img.style.setProperty('border-radius', '24px', 'important');
+                    img.style.setProperty('display', 'block', 'important');
+                    img.style.setProperty('margin', '20px auto', 'important');
+                }
+            }
+        }
+    });
 
-<script src="script.js"></script>
+    // 2. Forçar o botão "Ler Online" a abrir o Livro Digital
+    document.querySelectorAll('button, a').forEach(function(btn) {
+        if (btn.textContent.toLowerCase().includes('ler online')) {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                var paginas = [
+                    "livro/pg1.png", "livro/pg2.png", "livro/pg3.png", "livro/pg4.png",
+                    "livro/pg5.png", "livro/pg6.png", "livro/pg7.png", "livro/pg8.png",
+                    "livro/pg9.png", "livro/pg10.png", "livro/pg11.png", "livro/pg12.png",
+                    "livro/pg13.png", "livro/pg14.png", "livro/pg15.png", "livro/pg16.png",
+                    "livro/pg17.png", "livro/pg18.png", "livro/pg19.png", "livro/pg20.png",
+                    "livro/pg21.png", "livro/pg22.png", "livro/pg23.png", "livro/pg24.png",
+                    "livro/pg25.png", "livro/pg26.png", "livro/pg27.png", "livro/pg28.png",
+                    "livro/pg29.png", "livro/pg30.png", "livro/pg31.png", "livro/pg32.png",
+                    "livro/pg34.png", "livro/pg35.png", "livro/pg36.png", "livro/pg37.png",
+                    "livro/pg40.png"
+                ];
+                var atual = 0;
+                var modal = document.createElement('div');
+                modal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;";
+                modal.innerHTML = '<button id="fecharLivro" style="position:absolute;top:20px;right:30px;font-size:30px;background:#f4c430;border:none;border-radius:50%;width:45px;height:45px;cursor:pointer;">×</button>' +
+                                  '<div style="display:flex;align-items:center;gap:15px;">' +
+                                  '<button id="antLivro" style="font-size:25px;padding:10px 15px;border-radius:50%;border:none;cursor:pointer;">❮</button>' +
+                                  '<img id="imgLivro" src="' + paginas[0] + '" style="max-width:80vw;max-height:80vh;background:#fff;border-radius:8px;">' +
+                                  '<button id="proxLivro" style="font-size:25px;padding:10px 15px;border-radius:50%;border:none;cursor:pointer;">❯</button>' +
+                                  '</div><p id="legendaLivro" style="color:#fff;margin-top:10px;font-family:sans-serif;">Página 1 de ' + paginas.length + '</p>';
+                document.body.appendChild(modal);
 
+                document.getElementById('fecharLivro').onclick = function() { modal.remove(); };
+                document.getElementById('antLivro').onclick = function() {
+                    atual = (atual - 1 + paginas.length) % paginas.length;
+                    document.getElementById('imgLivro').src = paginas[atual];
+                    document.getElementById('legendaLivro').textContent = 'Página ' + (atual + 1) + ' de ' + paginas.length;
+                };
+                document.getElementById('proxLivro').onclick = function() {
+                    atual = (atual + 1) % paginas.length;
+                    document.getElementById('imgLivro').src = paginas[atual];
+                    document.getElementById('legendaLivro').textContent = 'Página ' + (atual + 1) + ' de ' + paginas.length;
+                };
+            };
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>
