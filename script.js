@@ -1,331 +1,563 @@
-// Aguarda todo o HTML da página carregar antes de executar os scripts.
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-    /* =========================================
-       1. MENU MOBILE (HAMBÚRGUER)
-       =========================================
-       Controla a abertura e fechamento do menu em celulares.
-    */
-    const menuToggle = document.getElementById("menu-toggle");
-    const mainNav = document.getElementById("main-nav");
+    /* arredondar e diminuir a foto da seção Sobre Nós */
+    document.querySelectorAll('h2, h3').forEach(titulo => {
+        if (titulo.textContent.trim().toLowerCase().includes('sobre nós')) {
+            const secaoSobre = titulo.closest('section') || titulo.parentElement;
+            const fotoSobre = secaoSobre ? secaoSobre.querySelector('img') : null;
+            if (fotoSobre) {
+                fotoSobre.style.width = '100%';
+                fotoSobre.style.maxWidth = '350px';
+                fotoSobre.style.borderRadius = '24px';
+                fotoSobre.style.display = 'block';
+                fotoSobre.style.margin = '20px auto';
+                fotoSobre.style.objectFit = 'cover';
+            }
+        }
+    });
 
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener("click", () => {
-            // Alterna a classe que mostra/esconde o menu no CSS
-            mainNav.classList.toggle("nav--open");
-            
-            // Atualiza os atributos de acessibilidade para leitores de tela
-            const isOpen = mainNav.classList.contains("nav--open");
-            menuToggle.setAttribute("aria-expanded", isOpen);
+    /* menu mobile e acessibilidade*/
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mainNav = document.getElementById('main-nav');
+    
+    if (hamburgerBtn && mainNav) {
+        hamburgerBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('is-open');
+            hamburgerBtn.classList.toggle('is-active');
         });
-
-        // Fecha o menu automaticamente quando o usuário clicar em algum link
-        const navLinks = mainNav.querySelectorAll(".nav__link");
-        navLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                mainNav.classList.remove("nav--open");
-                menuToggle.setAttribute("aria-expanded", "false");
+        document.querySelectorAll('.header__link').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('is-open');
+                hamburgerBtn.classList.remove('is-active');
             });
         });
     }
 
+    let fontSize = 100;
+    document.getElementById('btn-aumentar-fonte')?.addEventListener('click', () => { if(fontSize < 125) document.documentElement.style.fontSize = `${fontSize += 5}%`; });
+    document.getElementById('btn-restaurar-fonte')?.addEventListener('click', () => { fontSize = 100; document.documentElement.style.fontSize = '100%'; });
+    document.getElementById('btn-diminuir-fonte')?.addEventListener('click', () => { if(fontSize > 90) document.documentElement.style.fontSize = `${fontSize -= 5}%`; });
 
-    /* =========================================
-       2. ACESSIBILIDADE: ALTERAÇÃO DO TAMANHO DO TEXTO
-       =========================================
-       Aumenta ou diminui a fonte do site de forma proporcional usando 'rem'.
-    */
-    const btnIncreaseText = document.getElementById("btn-increase-text");
-    const btnDecreaseText = document.getElementById("btn-decrease-text");
-    let currentFontSize = 100; // Representa 100% do tamanho padrão (16px)
-
-    if (btnIncreaseText && btnDecreaseText) {
-        btnIncreaseText.addEventListener("click", () => {
-            if (currentFontSize < 130) { // Limite máximo para não quebrar o layout
-                currentFontSize += 10;
-                document.documentElement.style.fontSize = `${currentFontSize}%`;
-            }
+    const btnContraste = document.getElementById('btn-alto-contraste');
+    if (btnContraste) {
+        btnContraste.addEventListener('click', () => {
+            document.body.classList.toggle('alto-contraste');
+            localStorage.setItem('contraste', document.body.classList.contains('alto-contraste'));
         });
-
-        btnDecreaseText.addEventListener("click", () => {
-            if (currentFontSize > 80) { // Limite mínimo de legibilidade
-                currentFontSize -= 10;
-                document.documentElement.style.fontSize = `${currentFontSize}%`;
-            }
-        });
+        if (localStorage.getItem('contraste') === 'true') document.body.classList.add('alto-contraste');
     }
 
 
-    /* =========================================
-       3. ACESSIBILIDADE: ALTO CONTRASTE
-       =========================================
-       Ativa um modo de cor focado em pessoas com baixa visão.
-    */
-    const btnContrast = document.getElementById("btn-contrast");
-    if (btnContrast) {
-        btnContrast.addEventListener("click", () => {
-            // Adiciona ou remove a classe no <body>. O CSS se encarrega do resto.
-            document.body.classList.toggle("high-contrast");
-        });
+    /* cria o lightbox automaticamente caso não exista no HTML da página */
+    if (!document.getElementById('lightbox')) {
+        const lightboxHTML = `
+            <div id="lightbox" hidden style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+                <div id="lightbox-backdrop" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(11,31,58,0.92);"></div>
+                <button id="lightbox-close" style="position:absolute; top:20px; right:30px; z-index:10001; background:#f4c430; color:#0b1f3a; border:none; border-radius:50%; width:42px; height:42px; font-size:24px; font-weight:bold; cursor:pointer;">×</button>
+                <div style="position:relative; z-index:10000; display:flex; align-items:center; justify-content:center; gap:15px; max-width:95%;">
+                    <button id="lightbox-prev" style="background:#ffffff; color:#0b1f3a; border:none; border-radius:50%; width:45px; height:45px; font-size:22px; font-weight:bold; cursor:pointer;">❮</button>
+                    <div id="lightbox-display" style="display:flex; flex-direction:column; align-items:center; text-align:center; color:#ffffff;"></div>
+                    <button id="lightbox-next" style="background:#ffffff; color:#0b1f3a; border:none; border-radius:50%; width:45px; height:45px; font-size:22px; font-weight:bold; cursor:pointer;">❯</button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+        const lb = document.getElementById('lightbox');
+        lb.style.display = 'none';
     }
 
 
-    /* =========================================
-       4. ACESSIBILIDADE: LEITURA DE TEXTO (TTS)
-       =========================================
-       Usa a API nativa do navegador para ler os textos da página em voz alta.
-    */
-    const btnTts = document.getElementById("btn-tts");
-    let isSpeaking = false;
 
-    if (btnTts) {
-        btnTts.addEventListener("click", () => {
-            if (!isSpeaking) {
-                // Captura todo o texto visível dentro da tag <main>
-                const textToRead = document.querySelector(".main-content").innerText;
-                const utterance = new SpeechSynthesisUtterance(textToRead);
-                utterance.lang = "pt-BR";
-
-                // Evento executado quando a leitura termina
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    btnTts.innerHTML = '<i class="fa-solid fa-volume-high"></i> Ouvir Texto';
-                };
-
-                window.speechSynthesis.speak(utterance);
-                isSpeaking = true;
-                btnTts.innerHTML = '<i class="fa-solid fa-stop"></i> Parar Leitura';
-            } else {
-                // Se já estiver lendo, o clique para a voz imediatamente
-                window.speechSynthesis.cancel();
-                isSpeaking = false;
-                btnTts.innerHTML = '<i class="fa-solid fa-volume-high"></i> Ouvir Texto';
-            }
-        });
-    }
-
-
-    /* =========================================
-       5. ANIMAÇÃO AO ROLAR A TELA (SCROLL REVEAL)
-       =========================================
-       Faz as seções e cards surgirem com um efeito suave conforme aparecem na tela.
-    */
-    const sectionsToReveal = document.querySelectorAll("section, .card, .project-box, .event-row");
+    /* lightbox acervo galeria e projetos */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxDisplay = document.getElementById('lightbox-display');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
     
-    // Adiciona a classe base de animação em todos os elementos selecionados
-    sectionsToReveal.forEach(el => el.classList.add("reveal"));
+    let lightboxList = [];
+    let lightboxIndex = 0;
 
-    const checkScroll = () => {
-        const triggerBottom = window.innerHeight * 0.85; // Ponto de ativação (85% da tela)
+    function abrirLightbox(lista, index) {
+        lightboxList = lista;
+        lightboxIndex = index;
+        atualizarLightbox();
+        lightbox.removeAttribute('hidden');
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
 
-        sectionsToReveal.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
+    function fecharLightbox() {
+        lightbox.setAttribute('hidden', '');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }
 
-            if (sectionTop < triggerBottom) {
-                section.classList.add("reveal--active");
+    function atualizarLightbox() {
+        if (lightboxList.length > 0) {
+            const item = lightboxList[lightboxIndex];
+            lightboxDisplay.innerHTML = `
+                <img src="${item.img || item}" alt="Imagem Ampliada" style="max-width: 80vw; max-height: 75vh; object-fit: contain; border-radius: 6px; background: #fff; padding: 4px;">
+                <span class="lightbox-caption-text" style="margin-top: 12px; color: #fff; font-size: 16px;">${item.titulo || ''} ${item.legenda ? '- ' + item.legenda : ''} (${lightboxIndex + 1} de ${lightboxList.length})</span>
+            `;
+        }
+    }
+
+    document.getElementById('lightbox-close')?.addEventListener('click', fecharLightbox);
+    document.getElementById('lightbox-backdrop')?.addEventListener('click', fecharLightbox);
+    
+    lightboxPrev?.addEventListener('click', () => {
+        lightboxIndex = (lightboxIndex - 1 + lightboxList.length) % lightboxList.length;
+        atualizarLightbox();
+    });
+    
+    lightboxNext?.addEventListener('click', () => {
+        lightboxIndex = (lightboxIndex + 1) % lightboxList.length;
+        atualizarLightbox();
+    });
+
+    document.querySelectorAll('.galeria__item').forEach((item, index) => {
+        item.addEventListener('click', () => {
+            const imgs = Array.from(document.querySelectorAll('.galeria__item img')).map(img => img.src);
+            abrirLightbox(imgs, index);
+        });
+    });
+
+    /*repositorio de fotos do acervo em lista (ordem que vai seguir dentro do modal) MUSEU, BIBLIOTECA, CURIOSIDADES E LIVRO*/
+    const repositorioAcervo = {
+        fotos_acervo: {
+            titulo: "Fotos do Acervo Histórico",
+            descricao: "Mobiliário, objetos científicos e galerias de diretores.",
+            itens: [
+                { titulo: "Museu do Acervo", img: "museu/acervo1.jpg" },
+                { titulo: "Mesa Antiga do Acervo", img: "museu/acervo3.jpg" },
+                { titulo: "Mesas Antigas", img: "museu/acervo4.jpg" },
+                { titulo: "Objetos Históricos", img: "museu/acervo5.jpg" },
+                { titulo: "Objetos Históricos", img: "museu/acervo6.jpg" },
+                { titulo: "Objetos Históricos", img: "museu/acervo7.jpg" },
+                { titulo: "Cadeiras Antigas", img: "museu/acervo8.jpg" },
+                { titulo: "Cadeiras Antigas", img: "museu/acervo9.jpg" },
+                { titulo: "Jequitibá", img: "museu/acervo10.jpg" },
+                { titulo: "Homenagens", img: "museu/acervo11.jpg" },
+                { titulo: "Parede de Troféus", img: "museu/acervo12.jpg" },
+                { titulo: "Museu do Acervo", img: "museu/acervo13.jpg" },
+                { titulo: "Telescópio", img: "museu/acervo14.jpg" },
+                { titulo: "Telescópio", img: "museu/acervo15.jpg" },
+                { titulo: "Objetos Históricos", img: "museu/acervo16.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo17.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo18.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo19.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo20.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo21.jpg" },
+                { titulo: "Animais Empalhados", img: "museu/acervo22.jpg" },
+                { titulo: "Professores Importantes", img: "museu/acervo23.jpg" },
+                { titulo: "Professores Importantes", img: "museu/acervo24.jpg" },
+                { titulo: "Diretores Antigos", img: "museu/acervo25.jpg" },
+                { titulo: "Objetos Históricos", img: "museu/acervo26.jpg" },
+                { titulo: "Professores Conhecidos", img: "museu/acervo27.jpg" },
+                { titulo: "Professores Conhecidos", img: "museu/acervo28.jpg" },
+                { titulo: "Tijolo Imperial", img: "museu/acervo29.jpg" },
+                { titulo: "Sala Acervo", img: "museu/acervo30.jpg" },
+                { titulo: "Homenagens", img: "museu/acervo31.jpg" },
+                { titulo: "Retratos Antigos", img: "museu/acervo32.jpg" },
+                { titulo: "Mesa Histórica", img: "museu/acervo33.jpg" },
+                { titulo: "Carteira Antiga", img: "museu/acervo34.jpg" },
+            ]
+        },
+        biblioteca_acervo: {
+            titulo: "Biblioteca Histórica",
+            descricao: "Obras clássicas, anuários e livros raros da instituição.",
+            itens: [
+                { titulo: "Nossa Biblioteca ", img: "biblioteca/biblio.1.jpg" },
+                { titulo: "Caminhoá Botânica", img: "biblioteca/biblio.2.jpg" },
+                { titulo: "Geografia de Língua Escrava", img: "biblioteca/biblio.4.jpg" },
+                { titulo: "Recenseamento do Brazil", img: "biblioteca/biblio.5.jpg" },
+                { titulo: "Reserva Especial", img: "biblioteca/biblio.6.jpg" },
+                { titulo: "Coletânea de Livros", img: "biblioteca/biblio.7.jpg" },
+                { titulo: "Coletânea de Livros", img: "biblioteca/biblio.9.jpg" },
+                { titulo: "Livro Manuscrito", img: "biblioteca/biblio.10.jpg" },
+                { titulo: "Coletânea de Livros Manuscritos ", img: "biblioteca/biblio.11.jpg" },
+                { titulo: "Coletânea de Enciclopédia", img: "biblioteca/biblio.12.jpg" },
+                { titulo: "Coletânea de Livros", img: "biblioteca/biblio.13.jpg" },
+                { titulo: "Coletânea de Livros", img: "biblioteca/biblio.14.jpg" },
+                { titulo: "Coletânea de Livros", img: "biblioteca/biblio.15.jpg" },
+                { titulo: "Santos Dumont", img: "biblioteca/biblio.16.jpg" },
+                { titulo: "Santos Dumont", img: "biblioteca/biblio.17.jpg" },
+                { titulo: "Bíblias Sagradas", img: "biblioteca/biblio.18.jpg" },
+                { titulo: "Geografia do Brasil", img: "biblioteca/biblio.19.jpg" },
+                { titulo: "Personagens da nossa história ", img: "biblioteca/biblio.20.jpg" },
+                { titulo: "Livros Históricos", img: "biblioteca/biblio.21.jpg" },
+                { titulo: "Coleção Buffon", img: "biblioteca/biblio.22.jpg" },
+                { titulo: "Dicionário Geographico", img: "biblioteca/biblio.23.jpg" },
+                { titulo: "Dicionário Geographico", img: "biblioteca/biblio.24.jpg" },
+                { titulo: "Obras Monteiro Lobato", img: "biblioteca/biblio.25.jpg" },
+                { titulo: "Dicionário Geographico", img: "biblioteca/biblio.26.jpg" },
+                { titulo: "Livro Albert Einstein", img: "biblioteca/biblio.27.jpg" },
+                { titulo: "Anais de Medicina", img: "biblioteca/biblio.28.jpg" },
+                { titulo: "Coletânea de Fisiologia", img: "biblioteca/biblio.29.jpg" },
+                { titulo: "Dicionários Antigos", img: "biblioteca/biblio.30.jpg" },
+                { titulo: "Os Lusíadas", img: "biblioteca/biblio.32.jpg" },
+                { titulo: "Acervo Jânio Quadros", img: "biblioteca/biblio.33.jpg" }
+            ]
+        },
+        livro_digital: {
+            titulo: "Livro 113 Anos",
+            descricao: "Páginas do Livro Digital.",
+            itens: [
+                { titulo: "Capa", img: "livro/pg1.png" },
+                { titulo: "Página 2", img: "livro/pg2.png" },
+                { titulo: "Página 3", img: "livro/pg3.png" },
+                { titulo: "Página 4", img: "livro/pg4.png" },
+                { titulo: "Página 5", img: "livro/pg5.png" },
+                { titulo: "Página 6", img: "livro/pg6.png" },
+                { titulo: "Página 7", img: "livro/pg7.png" },
+                { titulo: "Página 8", img: "livro/pg8.png" },
+                { titulo: "Página 9", img: "livro/pg9.png" },
+                { titulo: "Página 10", img: "livro/pg10.png" },
+                { titulo: "Página 11", img: "livro/pg11.png" },
+                { titulo: "Página 12", img: "livro/pg12.png" },
+                { titulo: "Página 13", img: "livro/pg13.png" },
+                { titulo: "Página 14", img: "livro/pg14.png" },
+                { titulo: "Página 15", img: "livro/pg15.png" },
+                { titulo: "Página 16", img: "livro/pg16.png" },
+                { titulo: "Página 17", img: "livro/pg17.png" },
+                { titulo: "Página 18", img: "livro/pg18.png" },
+                { titulo: "Página 19", img: "livro/pg19.png" },
+                { titulo: "Página 20", img: "livro/pg20.png" },
+                { titulo: "Página 21", img: "livro/pg21.png" },
+                { titulo: "Página 22", img: "livro/pg22.png" },
+                { titulo: "Página 23", img: "livro/pg23.png" },
+                { titulo: "Página 24", img: "livro/pg24.png" },
+                { titulo: "Página 25", img: "livro/pg25.png" },
+                { titulo: "Página 26", img: "livro/pg26.png" },
+                { titulo: "Página 27", img: "livro/pg27.png" },
+                { titulo: "Página 28", img: "livro/pg28.png" },
+                { titulo: "Página 29", img: "livro/pg29.png" },
+                { titulo: "Página 30", img: "livro/pg30.png" },
+                { titulo: "Página 31", img: "livro/pg31.png" },
+                { titulo: "Página 32", img: "livro/pg32.png" },
+                { titulo: "Página 33", img: "livro/pg34.png" },
+                { titulo: "Página 34", img: "livro/pg35.png" },
+                { titulo: "Página 35", img: "livro/pg36.png" },
+                { titulo: "Página 36", img: "livro/pg37.png" },
+                { titulo: "Página 37", img: "livro/pg40.png" }
+            ]
+        },
+        curiosidades: {
+            titulo: "Curiosidades e Arquitetura",
+            descricao: "Detalhes construtivos, homenagens e brasões históricos da escola.",
+            itens: [
+                { titulo: "Árvore Centenária", img: "curiosidades/curiosidade1.jpg" },
+                { titulo: "Piso Hidráulico Português", img: "curiosidades/curiosidade2.jpg" },
+                { titulo: "Piso de Madeira ", img: "curiosidades/curiosidade3.jpg" },
+                { titulo: "Fotos Antigas", img: "curiosidades/curiosidade4.jpg" },
+                { titulo: "Escada de Pedra", img: "curiosidades/curiosidade5.jpg", legenda: "Azulejo hidráulico original" },
+                { titulo: "Homenagens", img: "curiosidades/curiosidade6.jpg" },
+                { titulo: "Monumento Gramado", img: "curiosidades/curiosidade8.jpg" },
+                { titulo: "Monumento Gramado", img: "curiosidades/curiosidade7.jpg" },
+                { titulo: "Parede Profunda", img: "curiosidades/curiosidade9.jpg" },
+                { titulo: "Pintura Antiga", img: "curiosidades/curiosidade10.jpg" },
+                { titulo: "Parede Histórica", img: "curiosidades/curiosidade11.jpg" },
+                { titulo: "Tintas Antigas", img: "curiosidades/curiosidade12.jpg" },
+                { titulo: "Teste de Tintas", img: "curiosidades/curiosidade13.jpg", legenda: "Tijolo com o Brasão do Império usado na construção" },
+                { titulo: "Professores Homenageados", img: "curiosidades/curiosidade14.jpg" },
+                { titulo: "Professores Homenageados", img: "curiosidades/curiosidade15.jpg" },
+                { titulo: "Professores Homenageados", img: "museu/acervo2.jpg" },
+                { titulo: "Pia Antiga", img: "curiosidades/curiosidade16.jpg" },
+            ]
+        }
+    };
+    const modalAcervo = document.getElementById('modal-acervo');
+    const modalAcervoGrid = document.getElementById('modal-acervo-grid');
+    const modalAcervoTitulo = document.getElementById('modal-acervo-titulo');
+    const modalAcervoDesc = document.getElementById('modal-acervo-desc');
+
+    document.querySelectorAll('.acervo__item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cat = btn.getAttribute('data-category');
+            const dados = repositorioAcervo[cat];
+            if (!dados) return;
+
+            if (modalAcervo && modalAcervoGrid) {
+                modalAcervoTitulo.textContent = dados.titulo;
+                modalAcervoDesc.textContent = dados.descricao;
+                modalAcervoGrid.innerHTML = '';
+
+                dados.itens.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'modal-acervo__item';
+                    div.innerHTML = `
+                        <img src="${item.img}" alt="${item.titulo}">
+                        <span>${item.titulo}</span>
+                    `;
+                    div.addEventListener('click', () => abrirLightbox(dados.itens, index));
+                    modalAcervoGrid.appendChild(div);
+                });
+
+                modalAcervo.removeAttribute('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                abrirLightbox(dados.itens, 0);
             }
         });
+    });
+
+    document.getElementById('modal-acervo-close')?.addEventListener('click', () => { modalAcervo.setAttribute('hidden', ''); document.body.style.overflow = ''; });
+    document.getElementById('modal-acervo-backdrop')?.addEventListener('click', () => { modalAcervo.setAttribute('hidden', ''); document.body.style.overflow = ''; });
+
+    /* botão Ler Online do Livro Digital */
+    document.querySelectorAll('#btn-ler-livro, button, a').forEach(el => {
+        if (el.id === 'btn-ler-livro' || el.textContent.trim().toLowerCase() === 'ler online') {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation(); // Impede que outro modal do livro abra junto
+                abrirLightbox(repositorioAcervo.livro_digital.itens, 0);
+            }, true); // O "true" faz esse código rodar antes de qualquer outro
+        }
+    });
+
+    /*repositorio fotos dos professores */
+    const repositorioProfessores = {
+        linguagens: {
+            titulo: "Professores de Linguagens",
+            descricao: "Língua Portuguesa, Literatura, Inglês, Arte, Redação e Leitura, O.E .",
+            professores: [
+                { nome: "Profª. Adriana", disciplina: "Educação Física", img: "professores/prof.adriana.jpeg" },
+                { nome: "Profª. Alexandra", disciplina: "Língua Portuguesa", img: "professores/prof.alexandra.jpeg" },
+                { nome: "Profª. Célia", disciplina: "Língua Portuguesa", img: "professores/prof.celia.jpeg" },
+                { nome: "Prof. Matheus", disciplina: "Língua Portuguesa", img: "professores/prof.matheus.jpeg" },
+                { nome: "Profª. M. Eduarda", disciplina: "Língua Portuguesa", img: "professores/prof.m.eduarda.jpeg" },
+                { nome: "Profª. Patrícia", disciplina: "Arte", img: "professores/prof.patricia.jpeg" },
+                { nome: "Profª. Sandra", disciplina: "Inglês", img: "professores/prof.sandra.jpeg" },
+                { nome: "Prof. Victor", disciplina: "Língua Portuguesa", img: "professores/prof.victor.jpeg" }
+            ]
+        },
+        exatas: {
+            titulo: "Professores de Exatas",
+            descricao: "Matemática e O.E.",
+            professores: [
+                { nome: "Profª. Carina", disciplina: "Matemática", img: "professores/prof.carina.jpeg" },
+                { nome: "Prof. Lucas", disciplina: "Matemática", img: "professores/prof.lucas.jpeg" },
+                { nome: "Profª. Sônia", disciplina: "Matemática", img: "professores/prof.dourado.jpeg" }
+            ]
+        },
+        humanas: {
+            titulo: "Professores de Ciências Humanas",
+            descricao: "História, Geografia, Filosofia e Sociologia.",
+            professores: [
+                { nome: "Prof. Guilherme", disciplina: "Filosofia/Sociologia", img: "professores/prof.guilherme.soci.jpeg" },
+                { nome: "Profª. Patrícia", disciplina: "Geografia", img: "professores/prof.paty.jpeg" },
+                { nome: "Profª. Paula", disciplina: "História", img: "professores/prof.paula.jpeg" }
+            ]
+        },
+        natureza: {
+            titulo: "Professores de Ciências da Natureza",
+            descricao: "Física, Química, Biologia e Práticas Experimentais.",
+            professores: [
+                { nome: "Profª. Camila", disciplina: "Química", img: "professores/prof.camila.jpeg" },
+                { nome: "Profª. Cláudia", disciplina: "Biologia", img: "professores/prof.claudia.jpeg" },
+                { nome: "Prof. Denilson", disciplina: "Física", img: "professores/prof.denilson.jpeg" },
+                { nome: "Prof. Flávio", disciplina: "Biologia", img: "professores/prof.flavio.jpeg" },
+                { nome: "Prof. Guilherme", disciplina: "Química", img: "professores/prof.gulherme.quim.jpeg" },
+                { nome: "Profª. Isabelle", disciplina: "Física", img: "professores/prof.isabelle.jpeg" },
+            ]
+        },
+        tecnico: {
+            titulo: "Professores do Técnico",
+            descricao: "Desenvolvimento de Sistemas e Efermagem.",
+            professores: [
+                { nome: "Prof. Alexander", disciplina: "Desenvolvimento de Sistemas", img: "professores/prof.alex.tec.ds.jpeg" },
+                { nome: "Prof. Aparecido", disciplina: "Desenvolvimento de Sistemas", img: "professores/prof.aparecido.jpeg" },
+                { nome: "Profª. Gláucimara", disciplina: "Desenvolvimento de Sistemas", img: "professores/prof.glaucia.tec.ds.jpeg" },
+                { nome: "Profª. Francielle", disciplina: "Enfermagem", img: "professores/prof.fran.ef.jpeg" },
+                { nome: "Profª. Jackeline", disciplina: "Enfermagem", img: "professores/prof.jacke.ef.jpeg" },
+                { nome: "Profª. Lídia", disciplina: "Enfermagem", img: "professores/prof.lidia.ef.jpeg" }
+            ]
+        },
+        especial: {
+            titulo: "Professores de Apoio",
+            descricao: "Apoio",
+            professores: [
+                { nome: "Profª Cintia", disciplina: "Apoio ao Protagonismo", img: "professores/prof.cintia.jpeg" },
+                { nome: "Profª Mônica", disciplina: "Educação Especial", img: "professores/prof.especial1.jpeg" },
+            ]
+        }
+    };
+    const modalProfessores = document.getElementById('modal-professores');
+    const modalProfessoresGrid = document.getElementById('modal-professores-grid');
+    const modalProfessoresTitulo = document.getElementById('modal-professores-titulo');
+    const modalProfessoresDesc = document.getElementById('modal-professores-desc');
+
+    document.querySelectorAll('.professores__pasta-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const area = btn.getAttribute('data-area');
+            const dados = repositorioProfessores[area];
+            
+            modalProfessoresTitulo.textContent = dados.titulo;
+            modalProfessoresDesc.textContent = dados.descricao;
+            modalProfessoresGrid.innerHTML = '';
+
+            dados.professores.forEach(prof => {
+                const div = document.createElement('div');
+                div.className = 'modal-professores__item';
+                div.innerHTML = `
+                    <img src="${prof.img}" alt="Foto ${prof.nome}">
+                    <strong>${prof.nome}</strong>
+                    <small>${prof.disciplina}</small>
+                `;
+                modalProfessoresGrid.appendChild(div);
+            });
+
+            modalProfessores.removeAttribute('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('modal-professores-close')?.addEventListener('click', () => { modalProfessores.setAttribute('hidden', ''); document.body.style.overflow = ''; });
+    document.getElementById('modal-professores-backdrop')?.addEventListener('click', () => { modalProfessores.setAttribute('hidden', ''); document.body.style.overflow = ''; });
+
+    /* fecha os modais abertos e volta toda pagina ao normal caso seja apertada a tecla ESC */
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            fecharLightbox();
+            modalAcervo?.setAttribute('hidden', '');
+            modalProfessores?.setAttribute('hidden', '');
+            document.body.style.overflow = '';
+        }
+    });
+
+    /*chat bot dinâmico */
+    const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
+    const chatbotWindow = document.getElementById('chatbot-window');
+
+    chatbotToggleBtn?.addEventListener('click', () => {
+        const isHidden = chatbotWindow.hasAttribute('hidden');
+        if(isHidden) chatbotWindow.removeAttribute('hidden');
+        else chatbotWindow.setAttribute('hidden', '');
+    });
+
+    document.getElementById('chatbot-close-btn')?.addEventListener('click', () => chatbotWindow.setAttribute('hidden', ''));
+
+    const chatbotForm = document.getElementById('chatbot-form');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+
+    //respostas 
+    const bancoDeRespostas = {
+        "titulo": "Não existem registros históricos de títulos esportivos de relevância nacional ou regional associados ao Colégio Culto à Ciência, mas, embora nem a Associação Atlética Ponte Preta (fundada em 1900) e nem o Guarani Futebol Clube (fundado em 1911) tenham nascido oficialmente dentro das salas de aula do Culto à Ciência, a escola foi o ponto de encontro crucial para os jovens que os criaram.",
+        "titulos":"Não existem registros históricos de títulos esportivos de relevância nacional ou regional associados ao Colégio Culto à Ciência, mas, embora nem a Associação Atlética Ponte Preta (fundada em 1900) e nem o Guarani Futebol Clube (fundado em 1911) tenham nascido oficialmente dentro das salas de aula do Culto à Ciência, a escola foi o ponto de encontro crucial para os jovens que os criaram.",
+        "historia": "A Escola Estadual Culto à Ciência foi fundada em 1873 pela Sociedade Culto à Ciência, inspirada nos ideais iluministas e positivistas. Nosso prédio principal é tombado pelo CONDEPHAAT! Também temos um Livro Digital disponível no nosso site caso você queira saber mais afundo sobre a História da Escola Culto À Ciência!",
+        "escola": "A Escola Estadual Culto à Ciência foi fundada em 1873 pela Sociedade Culto à Ciência, inspirada nos ideais iluministas e positivistas. Nosso prédio principal é tombado pelo CONDEPHAAT! Também temos um Livro Digital disponível no nosso site caso você queira saber mais afundo sobre a História da Escola Culto À Ciência!",
+        "diretor":"O diretor atual da Escola Estadual Culto à Ciência se chama Glauber Maldonado.",
+        "vice diretor":"O atual vice-diretor da Escola Estadual Culto à Ciência se chama Andreia Alves.",
+        "vice":"O atual vice-diretor da Escola Estadual Culto à Ciência se chama Andreia Alves.",
+        "professores":"Saiba mais sobre os professores clicando na aba 'PROFESSORES' no menu!",
+        "gestao":"Conheça a nossa Gestão clicando na aba 'GESTÃO' no menu!",
+        "projetos":"Conheça os nossos projetos clicando na aba 'PROJETOS' no menu!",
+        "galeria":"Veja a nossa galeria clicando na aba 'GALERIA' no menu!",
+        "integral":"Saiba mais sobre o Ensino Integral clicando na aba 'ENSINO INTEGRAL & ITINERÁRIOS' no menu!",
+        "acervo":"Saiba mais sobre o nosso Acervo clicando na aba 'ACERVO' no menu!",
+        "curiosidades":"Veja algumas curiosidades clicando na pasta Curiosidades na aba 'ACERVO' no menu!",
+        "curiosidade":"Veja algumas curiosidades clicando na pasta Curiosidades na aba 'ACERVO' no menu!",
+        "biblioteca":"Saiba mais sobre a nossa biblioteca clicando na pasta Biblioteca na aba 'ACERVO' no menu!",
+        "matricula":"Você pode entrar em contato conosco pelo telefone (19) 3232-3511, ou pode ir até a nossa secretaria que fica disponível das 9h-11h30, 13h-15h30",
+        "fundador":"O Colégio Culto à Ciência não foi fundado por uma única pessoa, mas sim por um grupo de idealistas, fazendeiros, comerciantes e intelectuais, muitos deles ligados à maçonaria da Loja 'Independência', reunidos na associação civil sem fins lucrativos Sociedade Culto à Ciência. Também temos um Livro Digital disponível no nosso site caso você queira saber mais afundo sobre a História da Escola Culto À Ciência!",
+        "fundada":"A Escola Estadual Culto à Ciência foi fundada no ano de 1873. Também temos um Livro Digital disponível no nosso site caso você queira saber mais afundo sobre a História da Escola Culto À Ciência!",
+        "fundacao":"A Escola Estadual Culto à Ciência foi fundada no ano de 1873. Também temos um Livro Digital disponível no nosso site caso você queira saber mais afundo sobre a História da Escola Culto À Ciência!",
+        "anos":"Com base no ano de sua fundação em 1873, a Escola Estadual Culto à Ciência tem hoje 153 anos de história.",
+        "ano":"Com base no ano de sua fundação em 1873, a Escola Estadual Culto à Ciência tem hoje, 2026, 153 anos de história.",
+        "pessoas":"O aluno mais famoso foi Alberto Santos Dumont, o Pai da Aviação, que estudou lá na década de 1880. Na televisão e no jornalismo, a escola teve alunos icônicos como o apresentador Fausto Silva (Faustão) e o jornalista Júlio de Mesquita, do jornal O Estado de S. Paulo.",
+        "colegio": "A Escola Estadual Culto à Ciência foi fundada em 1873 pela Sociedade Culto à Ciência, inspirada nos ideais iluministas e positivistas. Nosso prédio principal é tombado pelo CONDEPHAAT!",
+        "endereco": "Ficamos na R. Culto à Ciência, 422 - Botafogo, Campinas - SP, CEP 13020-060.",
+        "localizacao": "Ficamos na R. Culto à Ciência, 422 - Botafogo, Campinas - SP, CEP 13020-060.",
+        "telefone": "Você pode entrar em contato conosco pelo telefone (19) 3232-3511.",
+        "contato": "Você pode falar conosco pelo telefone (19) 3232-3511 ou pelo formulário de contato abaixo.",
+        "curso":"A escola oferece os Itinerários Formativos de Matemática e Ciências da Natureza, Linguagens e Ciências Humanas e Sociais, Téc. em Enfermagem e Téc. em Desenvolvimento de Sistemas",
+        "cursos":"A escola oferece os Itinerários Formativos de Matemática e Ciências da Natureza, Linguagens e Ciências Humanas e Sociais, Téc. em Enfermagem e Téc. em Desenvolvimento de Sistemas",
+        "horarios":"A secretaria da escola fica disponível das 9h-11h30, 13h-15h30",
+        "secretaria":"A secretaria da escola fica disponível das 9h-11h30, 13h-15h30",
+        "horario":"A secretaria da escola fica disponível das 9h-11h30, 13h-15h30",
+        "funcionamento":"A secretaria da escola fica disponível das 9h-11h30, 13h-15h30",
+        "aulas": "As aulas ocorrem de Segunda a Sexta, das 7h30-16h30",
+        "aula":"As aulas ocorrem de Segunda a Sexta, das 7h30-16h30",
+        "regras": "Sobre regras de convivência,você pode consultar o seu tutor.",
+        "laboratorios": "Contamos com laboratórios equipados de Biologia, Química, Física, Informática e Enfermagem para apoiar as aulas práticas dos itinerários e dos cursos técnicos!",
+        "laboratorio": "Contamos com laboratórios equipados de Biologia, Química, Física, Informática e Enfermagem para apoiar as aulas práticas dos itinerários e dos cursos técnicos!",
+        "refeicao": "Como somos uma escola de Tempo Integral (PEI), oferecemos café da manhã, almoço e lanche da tarde para todos os alunos nos intervalos das aulas!",
+        "almoço": "Como somos uma escola de Tempo Integral (PEI), oferecemos café da manhã, almoço e lanche da tarde para todos os alunos nos intervalos das aulas!",
+        "lanche": "Como somos uma escola de Tempo Integral (PEI), oferecemos café da manhã, almoço e lanche da tarde para todos os alunos nos intervalos das aulas!",
+        "merenda": "Como somos uma escola de Tempo Integral (PEI), oferecemos café da manhã, almoço e lanche da tarde para todos os alunos nos intervalos das aulas!",
+        "celular": "O uso de celulares é proibido nas escolas brasileiras (conforme a Lei Federal nº 15.100, sancionada em 13 de janeiro de 2025) para proteger a concentração, o aprendizado e a saúde mental de crianças e adolescentes da educação básica.",
+        "celulares": "O uso de celulares é proibido nas escolas brasileiras (conforme a Lei Federal nº 15.100, sancionada em 13 de janeiro de 2025) para proteger a concentração, o aprendizado e a saúde mental de crianças e adolescentes da educação básica.",
+        "vestimenta": "O uso do uniforme da escola é obrigatório para a segurança de todos. Caso tenha dúvidas sobre peças permitidas, consulte a coordenação!",
+        "uniforme": "O uso do uniforme da escola é obrigatório para a segurança de todos. Caso tenha dúvidas sobre peças permitidas, consulte a coordenação!",
+        "itinerario":"A escola oferece os Itinerários Formativos de Matemática e Ciências da Natureza, Linguagens e Ciências Humanas e Sociais, Téc. em Enfermagem e Téc. em Desenvolvimento de Sistemas",
+        "itinerarios":"A escola oferece os Itinerários Formativos de Matemática e Ciências da Natureza, Linguagens e Ciências Humanas e Sociais, Téc. em Enfermagem e Téc. em Desenvolvimento de Sistemas",
+        "tecnico": "Temos os cursos técnicos integrados de Desenvolvimento de Sistemas e Enfermagem, com foco prático para o mercado de trabalho.",
+        "ajuda": "Eu posso te ajudar com informações sobre a HISTÓRIA da escola, nosso ENDEREÇO, TELEFONE, CURSOS e ITINERÁRIOS oferecidos, HORÁRIOS de funcionamento! O que quer saber?",
+        "nos": "Saiba mais sobre os desenvolvimento do projeto clicando na aba 'NÓS' no menu!",
+        "desenvolvedores": "Saiba mais sobre os desenvolvimento do projeto clicando na aba 'NÓS' no menu!",
+        "codigo": "Saiba mais sobre os desenvolvimento do projeto clicando na aba 'NÓS' no menu!",
+        "livro":"Temos um Livro Digital caso você queira saber mais afundo sobre a História da Escola Culto À Ciência",
+        "bom dia": "Bom dia! Eu sou o Cultinho, assistente virtual da escola. Como eu posso te ajudar hoje?",
+        "boa tarde": "Boa tarde! Eu sou o Cultinho, assistente virtual da escola. Como eu posso te ajudar hoje?",
+        "boa noite": "Boa Noite! Eu sou o Cultinho, assistente virtual da escola. Como eu posso te ajudar hoje?",
+        "oi": "Oii! Eu sou o Cultinho, assistente virtual da escola. Como eu posso te ajudar hoje?",
+        "ola": "Olá! Eu sou o Cultinho, assistente virtual da escola. Como eu posso te ajudar hoje?",
+        "valeu": "Imagina! O Cultinho está sempre aqui para ajudar. Se precisar de mais alguma coisa, é só chamar! 😉",
+        "obrigado": "De nada! O Cultinho está sempre aqui para ajudar. Se precisar de mais alguma coisa, é só chamar! 😉",
+        "obrigada": "De nada! O Cultinho está sempre aqui para ajudar. Se precisar de mais alguma coisa, é só chamar! 😉",
+        "ate logo": "Até logo! Tenha um ótimo dia de estudos no Culto! 🏫",
+        "ate mais": "Até logo! Tenha um ótimo dia de estudos no Culto! 🏫",
+        "ate": "Até logo! Tenha um ótimo dia de estudos no Culto! 🏫",
+        "tchau": "Até logo! Tenha um ótimo dia de estudos no Culto! 🏫",
+        "adeus": "Até logo! Tenha um ótimo dia de estudos no Culto! 🏫"
     };
 
-    // Executa uma vez ao carregar e monitora a rolagem do usuário
-    window.addEventListener("scroll", checkScroll);
-    checkScroll();
+    chatbotForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = chatbotInput.value.trim();
+        if(!text) return;
 
+        chatbotMessages.innerHTML += `<div class="chatbot__message chatbot__message--user"><p>${text}</p></div>`;
+        chatbotInput.value = '';
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
-    /* =========================================
-       6. BOTÃO VOLTAR AO TOPO
-       =========================================
-       Mostra o botão flutuante apenas se o usuário descer a página além de 400px.
-    */
-    const btnBackToTop = document.getElementById("btn-back-to-top");
+        const termoBusca = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        let respostaBot = "Desculpe, não entendi muito bem...";
 
-    if (btnBackToTop) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 400) {
-                btnBackToTop.style.display = "flex";
-            } else {
-                btnBackToTop.style.display = "none";
-            }
-        });
-
-        btnBackToTop.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-
-    /* =========================================
-       7. GALERIA DE FOTOS COM LIGHTBOX
-       =========================================
-       Abre a imagem clicada em tela cheia com setas de navegação.
-    */
-    const galleryImages = document.querySelectorAll(".gallery-grid__img");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxCaption = document.getElementById("lightbox-caption");
-    const lightboxClose = document.getElementById("lightbox-close");
-    const lightboxPrev = document.getElementById("lightbox-prev");
-    const lightboxNext = document.getElementById("lightbox-next");
-    let currentImgIndex = 0;
-
-    if (lightbox && galleryImages.length > 0) {
-        
-        // Função interna para carregar a imagem no lightbox com base no índice
-        const showImage = (index) => {
-            currentImgIndex = index;
-            const imgElement = galleryImages[currentImgIndex];
-            lightboxImg.src = imgElement.src;
-            lightboxCaption.textContent = imgElement.alt;
-        };
-
-        // Escuta o clique em cada imagem da galeria
-        galleryImages.forEach((img, index) => {
-            img.addEventListener("click", () => {
-                lightbox.style.display = "flex";
-                lightbox.setAttribute("aria-hidden", "false");
-                showImage(index);
-            });
-        });
-
-        // Fechar o Lightbox
-        const closeLightbox = () => {
-            lightbox.style.display = "none";
-            lightbox.setAttribute("aria-hidden", "true");
-        };
-        lightboxClose.addEventListener("click", closeLightbox);
-
-        // Navegar para a Imagem Anterior
-        lightboxPrev.addEventListener("click", (e) => {
-            e.stopPropagation(); // Evita fechar o modal por clicar no fundo
-            let newIndex = currentImgIndex - 1;
-            if (newIndex < 0) newIndex = galleryImages.length - 1; // Volta para a última
-            showImage(newIndex);
-        });
-
-        // Navegar para a Próxima Imagem
-        lightboxNext.addEventListener("click", (e) => {
-            e.stopPropagation();
-            let newIndex = currentImgIndex + 1;
-            if (newIndex >= galleryImages.length) newIndex = 0; // Volta para a primeira
-            showImage(newIndex);
-        });
-
-        // Fecha se o usuário clicar fora da imagem (no fundo escuro)
-        lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    }
-
-
-    /* =========================================
-       8. VALIDAÇÃO DO FORMULÁRIO DE CONTATO
-       =========================================
-       Verifica se os campos estão certos antes de simular o envio.
-    */
-    const contactForm = document.getElementById("contact-form");
-    const successMsg = document.getElementById("form-success-msg");
-
-    if (contactForm) {
-        contactForm.addEventListener("submit", (e) => {
-            e.preventDefault(); // Impede o recarregamento automático da página
-            
-            let isFormValid = true;
-            const inputs = contactForm.querySelectorAll("input[required], textarea[required]");
-
-            inputs.forEach(input => {
-                const formGroup = input.parentElement;
-                
-                // Validação simples de campo vazio ou e-mail inválido
-                if (!input.value.trim() || (input.type === "email" && !input.value.includes("@"))) {
-                    formGroup.classList.add("form__group--invalid");
-                    isFormValid = false;
-                } else {
-                    formGroup.classList.remove("form__group--invalid");
+        if (bancoDeRespostas[termoBusca]) {
+            respostaBot = bancoDeRespostas[termoBusca];
+        } else {
+            for (let chave in bancoDeRespostas) {
+                if (termoBusca.includes(chave)) {
+                    respostaBot = bancoDeRespostas[chave];
+                    break;
                 }
-            });
-
-            // Se tudo estiver correto, exibe mensagem de sucesso e limpa os campos
-            if (isFormValid) {
-                successMsg.style.display = "block";
-                contactForm.reset();
-                
-                // Esconde o aviso de sucesso após 5 segundos
-                setTimeout(() => {
-                    successMsg.style.display = "none";
-                }, 5000);
             }
-        });
-    }
+        }
 
+        setTimeout(() => {
+            chatbotMessages.innerHTML += `<div class="chatbot__message chatbot__message--bot"><p>${respostaBot}</p></div>`;
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }, 600);
+    });
 
-    /* =========================================
-       9. INTERFACE DO CHATBOT (PROTÓTIPO)
-       =========================================
-       Controla a janela flutuante e simula respostas automáticas.
-    */
-    const chatbotToggle = document.getElementById("chatbot-toggle");
-    const chatbotBox = document.getElementById("chatbot-box");
-    const chatbotClose = document.getElementById("chatbot-close");
-    const chatbotForm = document.getElementById("chatbot-form");
-    const chatbotInput = document.getElementById("chatbot-input");
-    const chatbotMessages = document.getElementById("chatbot-messages");
+    const btnAbrirCultinho = document.getElementById('btn-abrir-cultinho');
+    btnAbrirCultinho?.addEventListener('click', () => {
+        if(chatbotWindow) {
+            chatbotWindow.removeAttribute('hidden');
+        }
+    });
 
-    if (chatbotToggle && chatbotBox) {
-        // Abre/Fecha a janela ao clicar no botão redondo
-        chatbotToggle.addEventListener("click", () => {
-            const isHidden = chatbotBox.style.display === "none" || chatbotBox.style.display === "";
-            chatbotBox.style.display = isHidden ? "flex" : "none";
-            chatbotBox.setAttribute("aria-hidden", !isHidden);
-        });
+    /* ler mais da galeria e botão voltar ao topo */
+    const btnTopo = document.getElementById('back-to-top-btn');
+    window.addEventListener('scroll', () => {
+        if(btnTopo) {
+            if(window.scrollY > 300) btnTopo.classList.add('is-visible');
+            else btnTopo.classList.remove('is-visible');
+        }
+    });
+    btnTopo?.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
 
-        chatbotClose.addEventListener("click", () => {
-            chatbotBox.style.display = "none";
-            chatbotBox.setAttribute("aria-hidden", "true");
-        });
-
-        // Envio de mensagens na janela
-        chatbotForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const userText = chatbotInput.value.trim();
-            if (!userText) return;
-
-            // 1. Renderiza a mensagem do usuário na tela
-            const userDiv = document.createElement("div");
-            userDiv.className = "chatbot__msg chatbot__msg--user";
-            userDiv.textContent = userText;
-            chatbotMessages.appendChild(userDiv);
-            
-            chatbotInput.value = ""; // Limpa o campo
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Rola para o final
-
-            // 2. Resposta Simulada do Sistema (Mock)
-            setTimeout(() => {
-                const botDiv = document.createElement("div");
-                botDiv.className = "chatbot__msg chatbot__msg--bot";
-                botDiv.textContent = "Obrigado pelo contato! Para informações sobre matrículas e transferências, por favor envie uma mensagem através do formulário de contato localizado nesta página.";
-                chatbotMessages.appendChild(botDiv);
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            }, 1000);
-
-            /* =========================================
-               COMENTÁRIO OBRIGATÓRIO - INTEGRAÇÃO DIALOGFLOW
-               =========================================
-               Para integrar o Dialogflow aqui no futuro, você deve substituir o 'setTimeout' acima por:
-               
-               fetch('URL_DA_SUA_CLOUD_FUNCTION_OU_WEBHOOK', {
-                   method: 'POST',
-                   headers: { 'Content-Type': 'application/json' },
-                   body: JSON.stringify({ message: userText })
-               })
-               .then(response => response.json())
-               .then(data => {
-                   // Aqui você pegaria 'data.fulfillmentText' vindo da API do Dialogflow
-                   // e colocaria dentro do textContent do botDiv.
-               });
-               
-               Isso fará com que a inteligência artificial do Google processe a intenção do aluno de verdade.
-            */
-        });
-    }
 
 });
